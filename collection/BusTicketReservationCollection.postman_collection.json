@@ -1,0 +1,220 @@
+{
+  "info": {
+    "_postman_id": "4339a414-c230-42dd-b4ff-ff1ab65f6bc8",
+    "name": "Bus Ticket Reservation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "12615650"
+  },
+  "item": [
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userName\": \"John\",\n    \"password\": \"1232345\",\n    \"mobileNumber\": \"9876543211\",\n    \"emailId\": \"johnDoe@abd.com\",\n    \"sex\": \"Male\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/create/user",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "create",
+            "user"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add bus",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"busNumber\" : \"A001\",\n    \"source\": \"Delhi\",\n    \"sourceDepartureTime\": \"12 AM\",\n    \"destination\": \"Manali\",\n    \"destinationArrivalTime\": \"6 AM\",\n    \"date\": \"20-07-2024\",\n    \"capacity\": 50,\n    \"price\": 595\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/add/bus",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "add",
+            "bus"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find bus by source destination and date",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/buses/source/Delhi/destination/Manali/date/20-07-2024",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "buses",
+            "source",
+            "Delhi",
+            "destination",
+            "Manali",
+            "date",
+            "20-07-2024"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reserve bus",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"busNumber\": \"A001\",\n    \"userName\": \"john\",\n    \"reservationDate\": \"21-07-2024\",\n    \"seatsToBeBooked\": 40\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/reserve/bus",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "reserve",
+            "bus"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find Bus details",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/bus/A001/availableSeats",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "bus",
+            "A001",
+            "availableSeats"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find bus details by bus number and date",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/bus/A001/availableSeats/date/20-07-2024",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "bus",
+            "A001",
+            "availableSeats",
+            "date",
+            "20-07-2024"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get reservations for user by userName",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/get-reservation/user/john/reservations",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "get-reservation",
+            "user",
+            "john",
+            "reservations"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Users",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userName\": \"John\",\n    \"password\": \"1232345\",\n    \"mobileNumber\": 9876543210,\n    \"emailId\": \"john@abd.com\",\n    \"sex\": \"Male\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/get/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "get",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
