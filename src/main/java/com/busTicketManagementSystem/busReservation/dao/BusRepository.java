@@ -19,4 +19,7 @@ public interface BusRepository extends JpaRepository<Bus, Integer> {
 
     @Query("select b from Bus b where b.busNumber = :busNumber")
     List<Bus> findBusByBusNumber(String busNumber);
+
+    @Query("SELECT b from Bus b")
+    List<Bus> fetchAll();
 }

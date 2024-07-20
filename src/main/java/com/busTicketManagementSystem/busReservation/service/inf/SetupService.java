@@ -12,4 +12,6 @@ public interface SetupService {
     GeneralMetaDataResponse getAvailableSeatsForBus(String busNumber);
 
     GeneralMetaDataResponse getAvailableSeatsForBusOnDate(String busNumber, String date);
+
+    GeneralMetaDataResponse getBusRoutes();
 }

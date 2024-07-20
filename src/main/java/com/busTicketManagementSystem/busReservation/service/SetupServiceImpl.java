@@ -169,4 +169,21 @@ public class SetupServiceImpl implements SetupService {
         response.setData(availability);
         return response;
     }
+
+    public GeneralMetaDataResponse getBusRoutes() {
+        GeneralMetaDataResponse response = new GeneralMetaDataResponse();
+        Meta meta = new Meta();
+
+        List<Bus> buses = busRepository.fetchAll();
+        if (buses.isEmpty()) {
+            meta.setSuccess(false);
+            meta.setMessageDescription("No buses found!");
+            response.setMeta(meta);
+            return response;
+        }
+
+        response.setData(buses);
+        response.setMeta(meta);
+        return response;
+    }
 }

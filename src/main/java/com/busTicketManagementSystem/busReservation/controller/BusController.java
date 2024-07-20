@@ -25,6 +25,12 @@ public class BusController {
         return response;
     }
 
+    @GetMapping("/get/bus/routes")
+    public GeneralMetaDataResponse getAllBusRoutes() {
+        GeneralMetaDataResponse response = setupService.getBusRoutes();
+        return response;
+    }
+
     @GetMapping("/buses/source/{sourceLocation}/destination/{destinationLocation}/date/{date}")
     public GeneralMetaDataResponse getBusesBySourceAndDestination(
             @PathVariable String sourceLocation,

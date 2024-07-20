@@ -215,6 +215,27 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Get bus routes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/get/bus/routes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "get",
+            "bus",
+            "routes"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }

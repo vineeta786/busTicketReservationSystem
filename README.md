@@ -12,7 +12,7 @@ Use Case -
    1) Search for buses based on departure and arrival location API
       Find bus by source destination and date
    2) View Available bus routes and Schedules
-      API - View Buses
+      API - Get Buse routes
 3) Viewing Seat Availability -
    1) View seats for a specific bus 
       1) By bus number - API - Find Bus details
