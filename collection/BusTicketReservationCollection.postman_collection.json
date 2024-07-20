@@ -70,7 +70,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/buses/source/Delhi/destination/Manali/date/20-07-2024",
+          "raw": "http://localhost:8080/buses/source/Delhi/destination/Manali/date/21-07-2024",
           "protocol": "http",
           "host": [
             "localhost"
@@ -83,7 +83,7 @@
             "destination",
             "Manali",
             "date",
-            "20-07-2024"
+            "21-07-2024"
           ]
         }
       },
@@ -96,7 +96,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"busNumber\": \"A001\",\n    \"userName\": \"john\",\n    \"reservationDate\": \"21-07-2024\",\n    \"seatsToBeBooked\": 40\n}",
+          "raw": "{\n    \"busNumber\": \"A001\",\n    \"userName\": \"john\",\n    \"reservationDate\": \"21-07-2024\",\n    \"seatsToBeBooked\": 2,\n    \"preferredSeats\":[\"A001-5\", \"A001-10\", \"A001-1\"],\n    \"isBookingToBeDoneIfPrefferedSeatsUnavailable\": false\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -145,7 +145,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/bus/A001/availableSeats/date/20-07-2024",
+          "raw": "http://localhost:8080/bus/A001/availableSeats/date/21-07-2024",
           "protocol": "http",
           "host": [
             "localhost"
@@ -156,7 +156,7 @@
             "A001",
             "availableSeats",
             "date",
-            "20-07-2024"
+            "21-07-2024"
           ]
         }
       },
