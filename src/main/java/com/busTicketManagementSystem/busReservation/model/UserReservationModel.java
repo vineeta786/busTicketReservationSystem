@@ -20,4 +20,5 @@ public class UserReservationModel {
     private Integer totalPrice;
     private String bookingDate;
 
+
 }

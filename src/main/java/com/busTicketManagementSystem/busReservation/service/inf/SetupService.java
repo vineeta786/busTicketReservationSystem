@@ -10,4 +10,6 @@ public interface SetupService {
     GeneralMetaDataResponse findBusesBySourceDestinationAndDate(String sourceLocation, String destinationLocation, String date);
 
     GeneralMetaDataResponse getAvailableSeatsForBus(String busNumber);
+
+    GeneralMetaDataResponse getAvailableSeatsForBusOnDate(String busNumber, String date);
 }

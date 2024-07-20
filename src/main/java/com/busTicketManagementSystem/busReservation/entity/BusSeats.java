@@ -10,36 +10,36 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.List;
-
 @Setter
 @Getter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
-public class Reservation {
+public class BusSeats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotNull(message = "Bus number is mandatory.")
+    @NotBlank(message = "Bus Number is mandatory.")
     private String busNumber;
 
-    @NotBlank(message = "User name is mandatory.")
-    private String userName;
+    @NotBlank(message = "Seat number is mandatory")
+    private String seatNumber;
 
-    @NotNull(message = "Reservation date is mandatory.")
-    private String reservationDate;
+    private String seatType = SeatType.SEATER.toString();
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private AppUser user;
+    @NotNull(message = "Price is mandatory")
+    private Integer price;
 
-    @ManyToOne
-    @JoinColumn(name = "bus_id", nullable = false)
-    private Bus bus;
+    private String userId;
 
-    private Integer seatsToBeBooked = 1;
+    private Boolean isBooked = false;
+
+    private String date;
+
+    public enum SeatType {
+        SLEEPER, SEATER
+    }
 }

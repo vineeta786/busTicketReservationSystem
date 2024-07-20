@@ -1,19 +1,23 @@
 package com.busTicketManagementSystem.busReservation.service;
 
 import com.busTicketManagementSystem.busReservation.dao.BusRepository;
+import com.busTicketManagementSystem.busReservation.dao.BusSeatsRepository;
 import com.busTicketManagementSystem.busReservation.dao.ReservationRepository;
 import com.busTicketManagementSystem.busReservation.dao.UserRepository;
 import com.busTicketManagementSystem.busReservation.entity.AppUser;
 import com.busTicketManagementSystem.busReservation.entity.Bus;
+import com.busTicketManagementSystem.busReservation.entity.BusSeats;
 import com.busTicketManagementSystem.busReservation.entity.Reservation;
 import com.busTicketManagementSystem.busReservation.model.GeneralMetaDataResponse;
 import com.busTicketManagementSystem.busReservation.model.Meta;
+import com.busTicketManagementSystem.busReservation.model.UserReservationRequest;
 import com.busTicketManagementSystem.busReservation.service.inf.ReservationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,11 +30,14 @@ public class ReservationServiceImpl implements ReservationService {
     BusRepository busRepository;
 
     @Autowired
+    BusSeatsRepository busSeatsRepository;
+
+    @Autowired
     ReservationRepository reservationRepository;
 
     Logger logger = LoggerFactory.getLogger(ReservationService.class);
 
-    public GeneralMetaDataResponse reserveBus(Reservation reservation) {
+    public GeneralMetaDataResponse reserveBus(UserReservationRequest reservation) {
         GeneralMetaDataResponse response = new GeneralMetaDataResponse();
         Meta meta = new Meta();
 
@@ -62,14 +69,52 @@ public class ReservationServiceImpl implements ReservationService {
             throw new IllegalArgumentException("Not enough seats available on the bus");
         }
 
-        bookingBus.setAvailableSeats(bookingBus.getAvailableSeats() - numberOfSeatsToBeBooked);
+        if (!reservation.getPreferredSeats().isEmpty())  {
+            List<String> unBookedSeats = busSeatsRepository.findUnbookedSeats(bookingBus.getBusNumber());
+            List<String> seatsToBeBooked = new ArrayList<>();
+            Integer totalReservedSeats = 0;
+            Integer seatsToBeReservedLater = 0;
+            for (String seat : reservation.getPreferredSeats()) {
+                if (!unBookedSeats.contains(seat)) {
+                    if (reservation.getIsBookingToBeDoneIfPrefferedSeatsUnavailable()) {
+                        seatsToBeReservedLater++;
+                    }
+                } else {
+                    seatsToBeBooked.add(seat);
+                }
+            }
+            for (String seat : seatsToBeBooked) {
+                busSeatsRepository.updateBookingStatus(bookingBus.getBusNumber(),seat);
+                bookingBus.setAvailableSeats(bookingBus.getAvailableSeats() - 1);
+                totalReservedSeats++;
+            }
+
+            for (int i = 0 ; i < seatsToBeReservedLater; i++) {
+                unBookedSeats = busSeatsRepository.findUnbookedSeats(bookingBus.getBusNumber());
+                busSeatsRepository.updateBookingStatus(bookingBus.getBusNumber(),unBookedSeats.get(i));
+                bookingBus.setAvailableSeats(bookingBus.getAvailableSeats() - 1);
+                totalReservedSeats++;
+            }
+
+            if (totalReservedSeats == numberOfSeatsToBeBooked) {
+
+            }
+        } else {
+            bookingBus.setAvailableSeats(bookingBus.getAvailableSeats() - numberOfSeatsToBeBooked);
+        }
+
         busRepository.save(bookingBus);
 
-        reservation.setUser(bookingUser);
-        reservation.setBus(bookingBus);
+        Reservation reservationData = new Reservation();
+        reservationData.setUserName(bookingUser.getUserName());
+        reservationData.setBusNumber(bookingBus.getBusNumber());
+        reservationData.setReservationDate(reservation.getReservationDate());
+        reservationData.setBus(bookingBus);
+        reservationData.setUser(bookingUser);
+        reservationData.setSeatsToBeBooked(reservation.getSeatsToBeBooked());
         reservation.setReservationDate(reservation.getReservationDate());
 
-        reservationRepository.save(reservation);
+        reservationRepository.save(reservationData);
         meta.setMessageDescription("Reservation completed successfully!");
         response.setMeta(meta);
         return response;

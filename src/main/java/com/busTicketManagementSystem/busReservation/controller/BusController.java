@@ -41,4 +41,13 @@ public class BusController {
         return setupService.getAvailableSeatsForBus(busNumber);
     }
 
+    @GetMapping("/bus/{busNumber}/availableSeats/date/{date}")
+    public GeneralMetaDataResponse getAvailableSeatsOnDate(@PathVariable String busNumber,
+                                                           @PathVariable String date) {
+        logger.info("Getting available seats for bus: "+ busNumber + " on date: "+ date);
+        return setupService.getAvailableSeatsForBusOnDate(busNumber, date);
+    }
+
+
+
 }

@@ -1,6 +1,9 @@
 package com.busTicketManagementSystem.busReservation.model;
 
+import com.busTicketManagementSystem.busReservation.entity.BusSeats;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,5 +18,6 @@ public class BusSeatAvailabilityModel {
     private Integer seatsAvailable;
     private Integer price;
     private String date;
+    private List<BusSeats> busSeats;
 
 }
