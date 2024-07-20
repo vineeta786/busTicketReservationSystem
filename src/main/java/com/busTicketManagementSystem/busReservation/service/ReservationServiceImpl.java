@@ -84,14 +84,14 @@ public class ReservationServiceImpl implements ReservationService {
                 }
             }
             for (String seat : seatsToBeBooked) {
-                busSeatsRepository.updateBookingStatus(bookingBus.getBusNumber(),seat);
+                busSeatsRepository.updateBookingStatus(bookingBus.getBusNumber(),seat, bookingUser.getUserName());
                 bookingBus.setAvailableSeats(bookingBus.getAvailableSeats() - 1);
                 totalReservedSeats++;
             }
 
             for (int i = 0 ; i < seatsToBeReservedLater; i++) {
                 unBookedSeats = busSeatsRepository.findUnbookedSeats(bookingBus.getBusNumber());
-                busSeatsRepository.updateBookingStatus(bookingBus.getBusNumber(),unBookedSeats.get(i));
+                busSeatsRepository.updateBookingStatus(bookingBus.getBusNumber(),unBookedSeats.get(i), bookingUser.getUserName());
                 bookingBus.setAvailableSeats(bookingBus.getAvailableSeats() - 1);
                 totalReservedSeats++;
             }

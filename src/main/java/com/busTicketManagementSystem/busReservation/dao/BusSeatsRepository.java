@@ -19,8 +19,12 @@ public interface BusSeatsRepository extends JpaRepository<BusSeats, Integer> {
 
     @Modifying
     @Transactional
-    @Query("Update BusSeats SET isBooked = true WHERE busNumber = :busNumber " +
-            "AND seatNumber = :seatNumber AND isBooked != true")
-    int updateBookingStatus(String busNumber, String seatNumber);
+    @Query("Update BusSeats SET isBooked = true, userId = :userName WHERE busNumber = :busNumber " +
+            "AND seatNumber = :seatNumber AND isBooked != true ")
+    int updateBookingStatus(String busNumber, String seatNumber, String userName);
+
+    @Query("SELECT BS FROM BusSeats BS WHERE BS.isBooked = true " +
+            "AND BS.busNumber = :busNumber AND BS.userId = :userName AND BS.date = :date")
+    List<BusSeats> findSeatsBookedByUser(String userName, String busNumber, String date);
 
 }

@@ -1,8 +1,10 @@
 package com.busTicketManagementSystem.busReservation.service;
 
+import com.busTicketManagementSystem.busReservation.dao.BusSeatsRepository;
 import com.busTicketManagementSystem.busReservation.dao.ReservationRepository;
 import com.busTicketManagementSystem.busReservation.dao.UserRepository;
 import com.busTicketManagementSystem.busReservation.entity.AppUser;
+import com.busTicketManagementSystem.busReservation.entity.BusSeats;
 import com.busTicketManagementSystem.busReservation.entity.Reservation;
 import com.busTicketManagementSystem.busReservation.model.GeneralMetaDataResponse;
 import com.busTicketManagementSystem.busReservation.model.Meta;
@@ -26,6 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     ReservationRepository reservationRepository;
+    @Autowired
+    private BusSeatsRepository busSeatsRepository;
 
     public GeneralMetaDataResponse createUser(AppUser user) {
         GeneralMetaDataResponse response = validateUser(user);
@@ -143,9 +147,10 @@ public class UserServiceImpl implements UserService {
             userReservationModel.setSourceLocation(reservation.getBus().getSource());
             userReservationModel.setDestinationLocation(reservation.getBus().getDestination());
             userReservationModel.setSeatsBooked(reservation.getSeatsToBeBooked());
-            userReservationModel.setPrice(reservation.getBus().getPrice());
+            userReservationModel.setBusSeats(busSeatsRepository.findSeatsBookedByUser(reservation.getUserName(),
+                    reservation.getBusNumber(), reservation.getReservationDate()));
             userReservationModel.setBookingDate(reservation.getReservationDate());
-            userReservationModel.setTotalPrice(reservation.getBus().getPrice() * reservation.getSeatsToBeBooked());
+            userReservationModel.setTotalPrice(getBookingPrice(userReservationModel.getBusSeats()));
             userReservationData.add(userReservationModel);
         }
 
@@ -154,6 +159,13 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
+    private Integer getBookingPrice(List<BusSeats> busSeats) {
+        int price = 0;
+        for(BusSeats busSeat: busSeats) {
+            price+=busSeat.getPrice();
+        }
+        return price;
+    }
 
 
 }
